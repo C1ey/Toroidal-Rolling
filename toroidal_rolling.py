@@ -21,30 +21,44 @@ import sys
 
 
 def findPositions(a, b, s, queries):
-    # Write your code here
+    # Write your code here
+    def calculate_position(x,y,n):
+        for _ in range(n):
+            x_next= (a*x-y)%s
+            y_next=(x+b*y)%s
+            x,y=x_next, y_next
+        return x,y
+    
+    results=[]
+    for query in queries:
+        x,y,n=query
+        final_x, final_y = calculate_position(x, y ,n)
+        results.append((final_x, final_y))
+
+    return results
 
 
 if __name__ == '__main__':
-    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+    
+    first_multiple_input = input().rstrip().split()
 
-    first_multiple_input = input().rstrip().split()
+    a = int(first_multiple_input[0])
 
-    a = int(first_multiple_input[0])
+    b = int(first_multiple_input[1])
 
-    b = int(first_multiple_input[1])
+    s = int(first_multiple_input[2])
 
-    s = int(first_multiple_input[2])
+    q = int(input().strip())
 
-    q = int(input().strip())
+    queries = []
 
-    queries = []
+    for _ in range(q):
+        queries.append(list(map(int, input().rstrip().split())))
 
-    for _ in range(q):
-        queries.append(list(map(int, input().rstrip().split())))
+    results = findPositions(a, b, s, queries)
 
-    results = findPositions(a, b, s, queries)
+    fptr.write('\n'.join([' '.join(map(str, x)) for x in results]))
+    fptr.write('\n')
 
-    fptr.write('\n'.join([' '.join(map(str, x)) for x in results]))
-    fptr.write('\n')
-
-    fptr.close()
+    fptr.close()
